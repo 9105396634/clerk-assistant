@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legal Clerk Assistant</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>वकील क्लर्क असिस्टेंट</h1>
+            <div style="text-align: center; margin-top: 10px;">
+                    <button onclick="toggleDraft()" style="background-color: #6c757d; width: auto; display: inline-block; padding: 10px 20px;">+ लीगल ड्राफ्ट तैयार करें</button>
+            </div>
+            <nav style="margin-top: 10px;">
+                <a href="index.html" style="text-decoration: none; font-weight: bold; color: #007bff;">🏠 होम</a> | 
+                  <a href="expenses.html" style="text-decoration: none; font-weight: bold; color: #28a745;">💰 खर्चा डायरी</a>
+            </nav>
+            <div id="draftSection" style="display:none; margin-top: 20px; background: #fff3cd; padding: 15px; border-radius: 8px; border: 1px solid #ffeeba;">
+              <h4>क्विक ड्राफ्ट (वकालतनामा फॉर्मेट)</h4>
+                <input type="text" id="clientName" placeholder="क्लाइंट का नाम">
+                <input type="text" id="courtName" placeholder="कोर्ट का नाम (जैसे: जिला न्यायालय)">
+                <button onclick="generateDraft()" style="background-color: #ffc107; color: black;">ड्राफ्ट डाउनलोड करें (TXT)</button>
+            </div>
+            <p>केस और तारीखों का डिजिटल रिकॉर्ड</p>
+        </header>
+        <section class="dashboard-summary" style="display: flex; gap: 10px; margin-bottom: 20px;">
+          <div style="flex: 1; background: #007bff; color: white; padding: 15px; border-radius: 8px; text-align: center;">
+             <h4 style="margin: 0;">कुल केस</h4>
+                <span id="totalCasesCount" style="font-size: 24px; font-weight: bold;">0</span>
+             </div>
+             <div style="flex: 1; background: #dc3545; color: white; padding: 15px; border-radius: 8px; text-align: center;">
+               <h4 style="margin: 0;">आज की सुनवाई</h4>
+               <span id="todayCasesCount" style="font-size: 24px; font-weight: bold;">0</span>
+            </div>
+            <div style="flex: 1; background: #28a745; color: white; padding: 15px; border-radius: 8px; text-align: center;">
+              <h4 style="margin: 0;">कुल खर्च</h4>
+              <span id="totalExpenseSum" style="font-size: 24px; font-weight: bold;">₹0</span>
+             </div>
+        </section>
+        <section class="form-section">
+            <h3>नया केस जोड़ें</h3>
+            <form id="caseForm">
+                <input type="text" id="caseName" placeholder="केस का नाम (e.g. Rahul vs State)" required>
+                <input type="date" id="hearingDate" required>
+                <textarea id="caseNotes" placeholder="ज़रूरी नोट्स (ऑर्डर, फाइलिंग, आदि)"></textarea>
+                <button type="submit" id="saveBtn">केस सुरक्षित करें</button>
+            </form>
+        </section>
+
+        <section class="list-section">
+            <h3>आज की केस लिस्ट</h3>
+            <div style="margin-bottom: 15px;">
+                <input type="text" id="searchInput" placeholder="केस का नाम या तारीख से सर्च करें..." style="width: 100%; padding: 10px; border: 2px solid #007bff; border-radius: 5px;">
+            </div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>केस का नाम</th>
+                            <th>सुनवाई की तारीख</th>
+                            <th>नोट्स</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="caseTableBody">
+                        </tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

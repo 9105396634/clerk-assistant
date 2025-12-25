@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <title>खर्चा डायरी - क्लर्क असिस्टेंट</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💰 खर्चा डायरी (Pocket Diary)</h1>
+           <a href="index.html" style="text-decoration: none; font-weight: bold; color: #007bff;">🏠 होम</a> 
+        </header>
+
+        <section class="form-section" style="background: #d4edda;">
+            <h3>नया खर्चा जोड़ें</h3>
+            <form id="expenseForm">
+                <input type="text" id="expReason" placeholder="खर्चे का विवरण (e.g. फोटोकॉपी, कोर्ट फीस)" required>
+                <input type="number" id="expAmount" placeholder="रुपये (Amount)" required>
+                <button type="submit" style="background-color: #28a745;">खर्चा सेव करें</button>
+            </form>
+        </section>
+
+        <section class="list-section">
+            <h3>कुल खर्चा: ₹<span id="totalAmount">0</span></h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>विवरण</th>
+                        <th>रुपये</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="expenseTableBody"></tbody>
+            </table>
+        </section>
+    </div>
+
+    <script>
+        const expenseForm = document.getElementById('expenseForm');
+        const expenseTableBody = document.getElementById('expenseTableBody');
+
+        document.addEventListener('DOMContentLoaded', displayExpenses);
+
+        expenseForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const newExp = {
+                id: Date.now(),
+                reason: document.getElementById('expReason').value,
+                amount: document.getElementById('expAmount').value
+            };
+            let expenses = JSON.parse(localStorage.getItem('myExpenses')) || [];
+            expenses.push(newExp);
+            localStorage.setItem('myExpenses', JSON.stringify(expenses));
+            expenseForm.reset();
+            displayExpenses();
+        });
+
+        function displayExpenses() {
+            let expenses = JSON.parse(localStorage.getItem('myExpenses')) || [];
+            expenseTableBody.innerHTML = '';
+            let total = 0;
+            expenses.forEach(item => {
+                total += parseFloat(item.amount);
+                expenseTableBody.innerHTML += `
+                    <tr>
+                        <td>${item.reason}</td>
+                        <td>₹${item.amount}</td>
+                        <td><button class="delete-btn" onclick="deleteExp(${item.id})">हटाएं</button></td>
+                    </tr>
+                `;
+            });
+            document.getElementById('totalAmount').innerText = total;
+        }
+
+        function deleteExp(id) {
+            let expenses = JSON.parse(localStorage.getItem('myExpenses')) || [];
+            expenses = expenses.filter(item => item.id !== id);
+            localStorage.setItem('myExpenses', JSON.stringify(expenses));
+            displayExpenses();
+        }
+    </script>
+</body>
+</html>
